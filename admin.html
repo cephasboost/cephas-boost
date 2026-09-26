@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CEPHAS BOOST — Administration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f4f6f8;
+      color: #222;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .box {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+
+    input, button {
+      padding: 12px;
+      margin: 5px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      cursor: pointer;
+      background: #111;
+      color: white;
+      border: none;
+    }
+
+    button:hover {
+      opacity: .9;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      border-bottom: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .error {
+      color: #b00020;
+      margin-top: 10px;
+    }
+
+    .success {
+      color: #087f23;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>🚀 CEPHAS BOOST — Administration</h1>
+
+  <div class="box">
+    <h2>Connexion administrateur</h2>
+
+    <input
+      type="password"
+      id="adminKey"
+      placeholder="Entrez la clé administrateur"
+    >
+
+    <button onclick="loadOrders()">
+      Accéder à l'administration
+    </button>
+
+    <div id="message"></div>
+  </div>
+
+  <div id="dashboard" style="display:none;">
+
+    <div class="box">
+      <h2>📦 Commandes</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Client</th>
+            <th>Service</th>
+            <th>Quantité</th>
+            <th>Total</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+
+        <tbody id="orders"></tbody>
+      </table>
+    </div>
+
+    <div class="box">
+      <h2>💳 Paiements</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Commande</th>
+            <th>Opérateur</th>
+            <th>Montant</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+
+        <tbody id="payments"></tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+async function loadOrders() {
+
+  const key = document.getElementById("adminKey").value.trim();
+  const message = document.getElementById("message");
+
+  if (!key) {
+    message.className = "error";
+    message.textContent = "Veuillez entrer la clé administrateur.";
+    return;
+  }
+
+  message.className = "";
+  message.textContent = "Chargement...";
+
+  try {
+
+    const response = await fetch("/api/admin/orders", {
+      headers: {
+        "x-admin-key": key
+      }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Accès refusé");
+    }
+
+    document.getElementById("dashboard").style.display = "block";
+
+    message.className = "success";
+    message.textContent = "Administration ouverte.";
+
+    const orders = document.getElementById("orders");
+    const payments = document.getElementById("payments");
+
+    orders.innerHTML = "";
+    payments.innerHTML = "";
+
+    data.orders.forEach(order => {
+
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td>${order.id}</td>
+        <td>${order.customerName || "-"}</td>
+        <td>${order.service}</td>
+        <td>${order.quantity}</td>
+        <td>${order.total} ${order.currency}</td>
+        <td>${order.status}</td>
+      `;
+
+      orders.appendChild(row);
+    });
+
+    data.payments.forEach(payment => {
+
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td>${payment.id}</td>
+        <td>${payment.orderId}</td>
+        <td>${payment.operator}</td>
+        <td>${payment.amount} ${payment.currency}</td>
+        <td>${payment.status}</td>
+      `;
+
+      payments.appendChild(row);
+    });
+
+  } catch (error) {
+
+    message.className = "error";
+    message.textContent = "Impossible d'accéder à l'admin : " + error.message;
+
+  }
+}
+</script>
+
+</body>
+  </html>
