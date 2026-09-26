@@ -1,0 +1,11 @@
+{
+  "orders": [],
+  "users": [],
+  "services": [
+    { "id": 1, "name": "1000 Vues TikTok", "price": 5000, "currency": "CDF", "category": "TikTok" },
+    { "id": 2, "name": "1000 Abonnés TikTok", "price": 15000, "currency": "CDF", "category": "TikTok" },
+    { "id": 3, "name": "1000 Likes TikTok", "price": 8000, "currency": "CDF", "category": "TikTok" },
+    { "id": 4, "name": "1000 Abonnés Instagram", "price": 20000, "currency": "CDF", "category": "Instagram" },
+    { "id": 5, "name": "1000 Vues YouTube", "price": 10000, "currency": "CDF", "category": "YouTube" }
+  ]
+}
