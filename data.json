@@ -1,0 +1,74 @@
+{
+  "services": [
+    {
+      "id": 1,
+      "name": "1000 Vues TikTok",
+      "category": "TikTok",
+      "price": 15000,
+      "currency": "CDF"
+    },
+    {
+      "id": 2,
+      "name": "1000 Followers TikTok",
+      "category": "TikTok",
+      "price": 15000,
+      "currency": "CDF"
+    },
+    {
+      "id": 3,
+      "name": "1000 Likes TikTok",
+      "category": "TikTok",
+      "price": 15000,
+      "currency": "CDF"
+    },
+    {
+      "id": 4,
+      "name": "1000 Followers Instagram",
+      "category": "Instagram",
+      "price": 15000,
+      "currency": "CDF"
+    },
+    {
+      "id": 5,
+      "name": "1000 Likes Instagram",
+      "category": "Instagram",
+      "price": 15000,
+      "currency": "CDF"
+    },
+    {
+      "id": 6,
+      "name": "1000 Followers Facebook",
+      "category": "Facebook",
+      "price": 15000,
+      "currency": "CDF"
+    },
+    {
+      "id": 7,
+      "name": "1000 Likes Facebook",
+      "category": "Facebook",
+      "price": 15000,
+      "currency": "CDF"
+    },
+    {
+      "id": 8,
+      "name": "1000 Vues Facebook",
+      "category": "Facebook",
+      "price": 15000,
+      "currency": "CDF"
+    },
+    {
+      "id": 9,
+      "name": "1000 Abonnés YouTube",
+      "category": "YouTube",
+      "price": 20,
+      "currency": "USD"
+    },
+    {
+      "id": 10,
+      "name": "1000 Vues YouTube",
+      "category": "YouTube",
+      "price": 20,
+      "currency": "USD"
+    }
+  ]
+}
