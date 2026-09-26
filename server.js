@@ -109,5 +109,40 @@ app.post("/api/webhooks/:provider",(req,res)=>{
  }
  res.json({received:true});
 });
+// --- UNIPAY CONGO PAIEMENT ---
+const UNIPAY_KEY = process.env.UNIPAY_API_KEY;
 
+app.post('/api/payment/create', async (req, res) => {
+  try {
+    const { amount, phone, network, description } = req.body;
+    
+    const response = await fetch('https://unipaycongo.com/api/payment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${UNIPAY_KEY}`
+      },
+      body: JSON.stringify({
+        amount: amount,
+        phone: phone,
+        currency: 'CDF',
+        provider: network, // airtel, orange, vodacom, africell
+        callback_url: 'https://cephas-boost.onrender.com/api/payment/callback',
+        description: description || 'Commande Cephas Boost'
+      })
+    });
+    
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Erreur paiement' });
+  }
+});
+
+app.post('/api/payment/callback', (req, res) => {
+  console.log('Paiement reçu:', req.body);
+  // Ici tu valides la commande et tu lances le boost
+  res.status(200).send('OK');
+});
 app.listen(PORT,()=>console.log(`CEPHAS BOOST running on http://localhost:${PORT}`));
